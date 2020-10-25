@@ -55,6 +55,7 @@ public class NodeList {
 		if (n == 1) {
 			n1.setRight(new Node("",n1.getCol()+1));
 		}else {
+			
 			n1.setRight(new Node("",n1.getCol()+1));
 			addNodes(n1.getRight(),n-1);
 		}

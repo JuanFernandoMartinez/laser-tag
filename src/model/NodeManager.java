@@ -34,4 +34,12 @@ public class NodeManager {
 			connectLists(n.getNext());
 		}
 	}
+	
+	public void createBoard(int n, int m, int k) {
+		addList(m, n);
+		connectLists();
+	}
+	
+	
+	
 }
