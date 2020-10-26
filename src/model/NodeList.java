@@ -45,7 +45,7 @@ public class NodeList {
 
 	public void addNodes(int n) {
 		if (node == null) {
-			node = new Node("",'A');
+			node = new Node("",1);
 			
 		}
 		addNodes(node,n-1);

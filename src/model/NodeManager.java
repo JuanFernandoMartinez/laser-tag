@@ -76,16 +76,16 @@ public class NodeManager {
 		return null;
 	}
 	/**
-	 * Run the game intally
+	 * Run the game initially 
 	 * @param x column
 	 * @param y row
 	 * @param dir direction 0 for horizontal 1 for vertical
 	 * @return final Node
 	 */
-	public Node runAttempt(int x, int y, int dir) {
+	public Node runAttempt(int x, int y, int dir) throws InvalidCoordinatesException {
 		Node aux = searchNode(x, y);
 		if (aux == null) {
-			return null;
+			throw new InvalidCoordinatesException();
 		}
 		switch (dir) {
 		case 0:
@@ -234,5 +234,15 @@ public class NodeManager {
 		
 		return null;
 	}
+
+	public NodeList getFirst() {
+		return first;
+	}
+
+	public void setFirst(NodeList first) {
+		this.first = first;
+	}
+	
+	
 	
 }

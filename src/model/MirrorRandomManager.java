@@ -22,7 +22,7 @@ public class MirrorRandomManager {
 		
 		Node aux = manager.searchNode(x, y);
 		if (aux != null) {
-			if (aux.getMirror().equals("")) {
+			if (aux.getMirror().equals("") && quantity > 0) {
 				aux.setMirror(mr);
 				quantity--;
 			}else {
@@ -38,13 +38,13 @@ public class MirrorRandomManager {
 	}
 	
 	public int generateX(int max) {
-		int x = (int)Math.random()*(max+1);
+		int x = (int)(Math.random()*max+1);
 		
 		return x;
 	}
 	
 	public int generateY(int max) {
-		int y = (int)Math.random()*(max+1);
+		int y = (int)(Math.random()*max+1);
 		return y;
 	}
 	
