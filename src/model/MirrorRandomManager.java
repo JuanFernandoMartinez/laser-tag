@@ -1,67 +1,61 @@
 package model;
 
 public class MirrorRandomManager {
-	
 	private int col;
 	private int row;
 	private int quantity;
 	
-	private MirrorList first;
+	private NodeManager manager;
 	
-	public MirrorRandomManager(int n, int m, int k) {
-		this.col = n;
-		this.row = m;
+	public MirrorRandomManager(NodeManager manager, int x, int y, int k) {
+		this.col = x;
+		this.row = y;
 		this.quantity = k;
-	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public void setCol(int col) {
-		this.col = col;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public MirrorList getFirst() {
-		return first;
-	}
-
-	public void setFirst(MirrorList first) {
-		this.first = first;
+		this.manager = manager;
 	}
 	
-	public void generateRows(int r) {
-		if (first == null) {
-			first = new MirrorList();
-		}else {
-			generateRows(first, r-1);
-		}
-	}
 	
-	private void generateRows(MirrorList n, int r) {
-		n.setNext(new MirrorList());
-		n.getNext().setPrev(n);
+	public void fillMatrix() {
+		int x = generateX(col);
+		int y = generateY(row);
+		String mr = generateMirror();
 		
-		if (r>1) {
-			generateRows(n.getNext(), r-1);
+		Node aux = manager.searchNode(x, y);
+		if (aux != null) {
+			if (aux.getMirror().equals("")) {
+				aux.setMirror(mr);
+				quantity--;
+			}else {
+				fillMatrix();
+			}
+		}else {
+			fillMatrix();
 		}
+		
+		if (quantity >= 1) {
+			fillMatrix();
+		}	
 	}
 	
+	public int generateX(int max) {
+		int x = (int)Math.random()*(max+1);
+		
+		return x;
+	}
+	
+	public int generateY(int max) {
+		int y = (int)Math.random()*(max+1);
+		return y;
+	}
+	
+	public String generateMirror() {
+		double i = Math.random();
+		
+		if (i < 0.5) {
+			return ""; //return "/";
+		}else {
+			return ""; // return "\";
+		}
+	}
 	
 }

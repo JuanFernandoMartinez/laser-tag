@@ -40,6 +40,34 @@ public class NodeManager {
 		connectLists();
 	}
 	
+	public Node searchNode(int x, int y) {
+		if (first.getRow() == y) {
+			Node aux = first.searchNode(x);
+			if (aux != null) {
+				return aux;
+			}else {
+				return searchNode(first,x,y);
+			}
+		}else {
+			return null;
+		}
+		
+	}
+	
+	private Node searchNode(NodeList n, int x,int y) {
+		if (n.getNext() != null) {
+			if (n.getNext().getRow() == y) {
+				Node aux = n.getNext().searchNode(x);
+				if (aux != null) {
+					return aux;
+				}else {
+					return null;
+				}
+			}
+		}
+		return null;
+	}
+	
 	
 	
 }

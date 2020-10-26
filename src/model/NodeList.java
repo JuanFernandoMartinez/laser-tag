@@ -77,4 +77,26 @@ public class NodeList {
 		
 	}
 	
+	public Node searchNode(int col) {
+		if (node.getCol()== col) {
+			return node;
+		}else {
+			return searchNode(node,col);
+		}
+		
+		
+	}
+	
+	private Node searchNode(Node n, int col) {
+		if (n.getRight() != null) {
+			if (n.getRight().getCol() == col) {
+				return n.getRight();
+			}else {
+				return searchNode(n.getRight(), col);
+			}
+		}else {
+			return null;
+		}
+	}
+	
 }
