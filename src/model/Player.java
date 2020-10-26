@@ -4,6 +4,10 @@ public class Player {
 	private String nickname;
 	private double score;
 	
+	private Player parent;
+	private Player left;
+	private Player right;
+	
 	public Player(String nick) {
 		nickname = nick;
 	}
@@ -22,6 +26,30 @@ public class Player {
 
 	public void setScore(double score) {
 		this.score = score;
+	}
+
+	public Player getParent() {
+		return parent;
+	}
+
+	public void setParent(Player parent) {
+		this.parent = parent;
+	}
+
+	public Player getLeft() {
+		return left;
+	}
+
+	public void setLeft(Player left) {
+		this.left = left;
+	}
+
+	public Player getRight() {
+		return right;
+	}
+
+	public void setRight(Player right) {
+		this.right = right;
 	}
 	
 	

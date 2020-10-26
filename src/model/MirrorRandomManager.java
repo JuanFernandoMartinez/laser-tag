@@ -50,11 +50,10 @@ public class MirrorRandomManager {
 	
 	public String generateMirror() {
 		double i = Math.random();
-		
 		if (i < 0.5) {
-			return ""; //return "/";
+			return "/"; 
 		}else {
-			return ""; // return "\";
+			return "\\";
 		}
 	}
 	
