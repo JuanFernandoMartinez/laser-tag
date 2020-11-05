@@ -1,28 +1,40 @@
 package model;
 
+import com.sun.javafx.binding.SelectBinding.AsInteger;
+
 import exception.InvalidCoordinatesException;
 
 public class NodeManager {
+	private int col;
+	private int row;
+	private int quantity;
+	
 	private NodeList first;
 	
-	public NodeManager() {
+	public NodeManager(int n, int m, int k) {
+		col = n;
+		row = m;
+		quantity = k;
 		first = null;
 	}
 	
-	public void addList(int n, int m) {
-		if (first == null) {
+	public void addList() {
+		if (first == null && row > 0) {
 			first = new NodeList(1);
-			first.addNodes(m);
+			first.addNodes(col);
 		}
-		addList(first,n-1,m);
+		if (row-1>0) {
+			addList(first,col,row-1);
+		}
+		
 	}
 	
 	private void addList(NodeList list,int n, int m) {
 		list.setNext(new NodeList(list.getRow()+1));
 		list.getNext().setPrev(list);
-		list.getNext().addNodes(m);
-		if (n < 1) {
-			addList(list.getNext(),n-1,m);
+		list.getNext().addNodes(n);
+		if (m > 1) {
+			addList(list.getNext(),n,m-1);
 		}
 	}
 	
@@ -34,15 +46,73 @@ public class NodeManager {
 		if (n.getNext() != null) {
 			n.connectNodes(n.getNext());
 			connectLists(n.getNext());
+		
 		}
 	}
 	
-	public void createBoard(int n, int m, int k) {
-		addList(m, n);
+	public void createBoard() {
+		addList();
 		connectLists();
-		MirrorRandomManager manager = new MirrorRandomManager(this, n, m, k);
-		manager.fillMatrix();
+		asignMirror();
+		
 	}
+	
+	public int randX(int max) {
+		if (max == 1) {
+			return 1;
+		}else {
+			int X = (int)(Math.random()*max+1);
+			return X;
+		}
+	}
+	
+	public int randY(int max) {
+		if (max == 1) {
+			return 1;
+		}else {
+			int y = (int)(Math.random()*max+1);
+			return y;
+		}
+	}
+	
+	public String randMirror() {
+		double mr = Math.random();
+		if (mr>0.5) {
+			return "/";
+		}else {
+			return "\\";
+		}
+	}
+	
+	
+	
+	public void asignMirror() {
+	if (quantity == 0) {
+		
+	}else {
+		asignMirror(quantity);
+	}
+	}
+	
+	private void asignMirror(int k) {
+			int x = randX(col);
+			int y = randY(row);
+			String mirror = randMirror();
+			Node aux = searchNode(x, y);
+			if (aux.getMirror().equals("")) {
+				aux.setMirror(mirror);
+				
+			}else {
+				asignMirror(k);
+			}
+			if (k-1 > 0) {
+				asignMirror(k-1);
+			}
+			
+			
+		
+		}
+	
 	
 	
 	
@@ -52,10 +122,10 @@ public class NodeManager {
 			if (aux != null) {
 				return aux;
 			}else {
-				return searchNode(first,x,y);
+				return null;
 			}
 		}else {
-			return null;
+			return searchNode(first,x,y);
 		}
 		
 	}
@@ -71,6 +141,8 @@ public class NodeManager {
 				}else {
 					return null;
 				}
+			}else {
+				return searchNode(n.getNext(),x,y);
 			}
 		}
 		return null;
@@ -105,23 +177,41 @@ public class NodeManager {
 		return null;
 	}
 	
-	public Node runAttempt(int x, int y) throws InvalidCoordinatesException {
-		Node aux = searchNode(x, y);
-		if (aux == null) {
-			throw new InvalidCoordinatesException();
-		}else {
-			if (aux.getLeft() == null) {
-				return runRight(aux);
-			}else if (aux.getRight() == null) {
-				return runLeft(aux);
-			}else if (aux.getUp() == null) {
-				return runDown(aux);
-			}else if (aux.getDown() == null) {
-				return runUp(aux);
-			}
+	public boolean IsCorner(Node node) {
+		int count = 0;
+		if (node.getLeft() == null) {
+			count++;
+		}
+		if (node.getRight() == null) {
+			count++;
+		}
+		if (node.getUp() == null) {
+			count ++;
+		}
+		if (node.getDown() == null) {
+			count++;
 		}
 		
-		return null;
+		if (count>=2) {
+			return true;
+		}else {
+			return false;
+		}	
+	}
+	
+	public Node runAttempt(int x, int y) throws InvalidCoordinatesException {
+		Node aux = searchNode(x, y);
+		if (aux.getLeft() == null) {
+			return runRight(aux);
+		} else if (aux.getRight() == null) {
+			return runLeft(aux);
+		} else if (aux.getUp() == null) {
+			return runDown(aux);
+		}else if (aux.getDown() == null) {
+			return runUp(aux);
+		}else {
+			return null;
+		}
 	}
 	
 	public Node runLeft(Node nd) {
@@ -230,6 +320,12 @@ public class NodeManager {
 			}else {
 				return runDown(nd.getDown());
 			}
+		case "":
+			if (nd.getRight() == null) {
+				return nd;
+			}else {
+				return runRight(nd.getRight());
+			}
 		}
 		
 		return null;
@@ -242,7 +338,100 @@ public class NodeManager {
 	public void setFirst(NodeList first) {
 		this.first = first;
 	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	public String getNodesString() {
+		String str = "";
+		if (first == null) {
+			return str;
+		}else {
+			return getNodesString(str, first);
+		}
+	}
+	
+	private String getNodesString(String str, NodeList nd) {
+		String aux = str+"\n"+nd.getNodesString();
+		if (nd.getNext() == null) {
+			return aux;
+		}else {
+			return getNodesString(aux, nd.getNext());
+		}
+	}
+	
+	public String getNodesSE(int x, int y) throws InvalidCoordinatesException {
+		Node one = searchNode(x, y);
+		Node two = runAttempt(x, y);
+		String str = "";
+		if (first == null) {
+			return str;
+		}else {
+			return getNodesSE(str, first,one, two);
+		}
+	}
+	
+	private String getNodesSE(String str, NodeList nd, Node one, Node two) {
+		String aux = str+"\n"+nd.getNodesSE(one,two);
+		if (nd.getNext() == null) {
+			return aux;
+		}else {
+			return getNodesSE(aux, nd.getNext(),one,two);
+		}
+	}
+	
+	public String getNodesSE(int x, int y, int dir) throws InvalidCoordinatesException {
+		Node one = searchNode(x, y);
+		Node two = runAttempt(x, y, dir);
+		String str = "";
+		if (first == null) {
+			return str;
+		}else {
+			return getNodesSE(str,first,one,two);
+		}
+	}
 	
 	
+	public String shot(int x, int y) {
+		String str = "";
+		Node a = searchNode(x, y);
+		if (first == null || a == null) {
+			return str;
+		}else {
+			return shot(str, first, a);
+		}
+		
+	}
+	
+	private String shot(String str, NodeList n, Node a) {
+		String aux = str+n.shot(a)+"\n";
+		
+		if (n.getNext() == null) {
+			return aux;
+		}else {
+			return shot(aux,n.getNext(),a);
+		}
+	}
 	
 }

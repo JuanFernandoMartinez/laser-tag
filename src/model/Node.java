@@ -5,15 +5,22 @@ public class Node {
 	//Attributes
 	private String mirror;
 	private int col;
+	private boolean visible;
 	//links
 	private Node up;
 	private Node down;
 	private Node left;
 	private Node right;
 	
+	/**
+	 * Creates a Node with a column number and a mirror value 
+	 * @param mirror String which refer to Mirror value '/' or '\'
+	 * @param col Integer with the column number
+	 */
 	public Node(String mirror, int col) {
 		this.mirror = mirror;
 		this.col = col;
+		this.visible = false;
 	}
 
 	public String getMirror() {
@@ -62,6 +69,16 @@ public class Node {
 
 	public void setCol(int col) {
 		this.col = col;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	
+	
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 	
 	
