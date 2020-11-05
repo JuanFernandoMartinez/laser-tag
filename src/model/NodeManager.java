@@ -1,6 +1,6 @@
 package model;
 
-import com.sun.javafx.binding.SelectBinding.AsInteger;
+
 
 import exception.InvalidCoordinatesException;
 
@@ -8,6 +8,9 @@ public class NodeManager {
 	private int col;
 	private int row;
 	private int quantity;
+	private int rest;
+	private double  score;
+	private int attempts;
 	
 	private NodeList first;
 	
@@ -419,7 +422,12 @@ public class NodeManager {
 		if (first == null || a == null) {
 			return str;
 		}else {
-			return shot(str, first, a);
+			str =  shot(str, first, a);
+			if (!str.contains("X")) {
+				rest++;
+				
+			}
+			return str;
 		}
 		
 	}
@@ -430,8 +438,54 @@ public class NodeManager {
 		if (n.getNext() == null) {
 			return aux;
 		}else {
-			return shot(aux,n.getNext(),a);
+			
+			return  shot(aux,n.getNext(),a);
 		}
 	}
+	
+	public boolean isWon() {
+		if (rest == quantity) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public int getRest() {
+		return rest;
+	}
+
+	public void setRest(int rest) {
+		this.rest = rest;
+	}
+	
+	public double  getScore() {
+		return this.score = (col*row)-attempts;
+		
+	}
+	
+	public boolean isBorder(int x, int y) {
+		int i = 0;
+		Node aux = searchNode(x, y);
+		if (aux.getDown() == null) {
+			i++;
+		}
+		if (aux.getUp() == null) {
+			i++;
+		}
+		if (aux.getLeft() == null) {
+			i++;
+		}
+		if (aux.getRight() == null) {
+			i++;
+		}
+		
+		if (i >= 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	
 }

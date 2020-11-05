@@ -154,6 +154,12 @@ public class NodeList {
 		}
 	}
 	
+	/**
+	 * returns String with the list (row) representation
+	 * @param str String with the current text
+	 * @param n current Node
+	 * @return String complete
+	 */
 	private String getNodesString(String str, Node n) {
 		String aux;
 		if (n.getMirror().equals("/") && n.isVisible()) {
@@ -171,6 +177,12 @@ public class NodeList {
 		}
 	}
 	
+	/**
+	 * gets String with the list representation related to a laser shoot
+	 * @param a current Node
+	 * @param b next Node
+	 * @return String with the list representation
+	 */
 	public String getNodesSE(Node a, Node b) {
 		String aux = "";
 		if (node == null) {
@@ -180,6 +192,14 @@ public class NodeList {
 		}
 	}
 	
+	/**
+	 * gets String with the list representation in a recursive way
+	 * @param str String with the current text
+	 * @param n 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	private String getNodesSE(String str ,Node n,Node a, Node b) {
 		String aux = "";
 		if (n == a) {
