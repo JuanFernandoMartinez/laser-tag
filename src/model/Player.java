@@ -3,13 +3,23 @@ package model;
 public class Player {
 	private String nickname;
 	private double score;
+	private boolean visited;
 	
 	private Player parent;
 	private Player left;
 	private Player right;
 	
 	public Player(String nick) {
+		visited = !true;
 		nickname = nick;
+	}
+	
+	public boolean isVisited() {
+		return visited;
+	}
+	
+	public void setVisited(boolean value) {
+		visited = value;
 	}
 
 	public String getNickname() {

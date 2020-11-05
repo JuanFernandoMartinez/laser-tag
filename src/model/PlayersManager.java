@@ -82,9 +82,38 @@ public class PlayersManager {
 		if (root == null) {
 			return str;
 		}else {
-			return null;
+			return visitPlayer(root, str);
 		}
 	}
+	
+	private String visitPlayer(Player r, String str) {
+		String aux = "";
+		if (r.getRight() != null && !(r.getRight().isVisited())) {
+			aux += visitPlayer(r.getRight(), str);
+			aux += "Nickname: "+r.getNickname()+" Score: "+r.getScore()+"\n";
+			r.setVisited(true);
+			if (r.getLeft() != null && !(r.getLeft().isVisited())) {
+				aux += visitPlayer(r.getLeft(), aux);
+				return aux;
+			}else {
+				return aux;
+			}
+		}else {
+			aux += "NickName: "+r.getNickname()+" Score: "+r.getScore()+"\n";
+			r.setVisited(true);
+			if (r.getLeft() != null && !(r.getLeft().isVisited())) {
+				aux += visitPlayer(r.getLeft(), aux);
+				return aux;
+			}else {
+				return aux;
+			}
+			
+		}
+		
+		
+	}
+	
+	
 	
 	
 }

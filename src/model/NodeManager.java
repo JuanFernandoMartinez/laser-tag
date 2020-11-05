@@ -180,7 +180,7 @@ public class NodeManager {
 		return null;
 	}
 	
-	public boolean IsCorner(Node node) {
+	/*public boolean IsCorner(Node node) {
 		int count = 0;
 		if (node.getLeft() == null) {
 			count++;
@@ -200,7 +200,7 @@ public class NodeManager {
 		}else {
 			return false;
 		}	
-	}
+	}*/
 	
 	public Node runAttempt(int x, int y) throws InvalidCoordinatesException {
 		Node aux = searchNode(x, y);
@@ -416,13 +416,13 @@ public class NodeManager {
 	}
 	
 	
-	public String shot(int x, int y) {
+	public String shot(int x, int y,String dir) {
 		String str = "";
 		Node a = searchNode(x, y);
 		if (first == null || a == null) {
 			return str;
 		}else {
-			str =  shot(str, first, a);
+			str =  shot(str, first, a,dir);
 			if (!str.contains("X")) {
 				rest++;
 				
@@ -432,14 +432,14 @@ public class NodeManager {
 		
 	}
 	
-	private String shot(String str, NodeList n, Node a) {
-		String aux = str+n.shot(a)+"\n";
+	private String shot(String str, NodeList n, Node a,String dir) {
+		String aux = str+n.shot(a,dir)+"\n";
 		
 		if (n.getNext() == null) {
 			return aux;
 		}else {
 			
-			return  shot(aux,n.getNext(),a);
+			return  shot(aux,n.getNext(),a,dir);
 		}
 	}
 	
@@ -460,7 +460,8 @@ public class NodeManager {
 	}
 	
 	public double  getScore() {
-		return this.score = (col*row)-attempts;
+		score = (row*col)-attempts;
+		return score;
 		
 	}
 	

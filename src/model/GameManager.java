@@ -23,15 +23,37 @@ public class GameManager {
 	}
 	
 	public String shoot(char x, int y) throws InvalidCoordinatesException {
-		if (manager.IsCorner(manager.searchNode('A'-x+1, y))){
-			return "Para las esquinas debe especificar la direccion (H horizontal, V vertical)";
-		}else {
+		
+		
 			return manager.getNodesSE('A'-x+1, y);
+		
+	}
+	
+	public String shoot(char x, int y, int dir) throws InvalidCoordinatesException {
+		if (manager.isBorder(x-'A'+1,y)) {
+			return manager.getNodesSE(x-'A'+1, y, dir);
+		}else {
+			return "La casilla especificada no es una esquina";
 		}
 	}
 	
-	public boolean shot(String attempt) {
-		return true;
+	public String shot(int x, int y, String dir) {
+		String str = manager.shot(x, y, dir);
+		if (manager.isWon()) {
+			String aux = "";
+			aux+= "============================\n";
+			aux+= "         Has ganado\n";
+			aux+= "============================\n";
+			aux+= "Tu puntaje es: "+manager.getScore();
+			Player player = new Player(nick);
+			player.setScore(manager.getScore());
+			players.addNode(player);
+			
+			return aux;
+		}else {
+			return str;
+		}
+		
 	}
 	
 	public String MirrorsRemain() {
@@ -50,7 +72,9 @@ public class GameManager {
 	}
 	
 	
-	
+	public String listPlayers() {
+		return players.listPlayers();
+	}
 	
 	
 	

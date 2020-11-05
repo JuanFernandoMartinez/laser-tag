@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Scanner;
 
+import exception.InvalidCoordinatesException;
 import model.GameManager;
 
 public class Menu {
@@ -65,13 +66,14 @@ public class Menu {
 	private void play(boolean win) {
 		if (win) {
 			System.out.println("Felicidades usted ha ganado "+manager.getScore());
+			
 		}else {
-			String str = sc.nextLine();
-			if (str.length() >= 2) {
-				manager.shoot(str.charAt(0), )
+			shot();
+			play(manager.getManager().isWon());
+				
 			}
 		}
-	}
+	
 	
 	private boolean getPlayerInfo() {
 		System.out.println("Escriba separando con espacios su nickname, #columnas, #filas y #espejos");
@@ -89,6 +91,71 @@ public class Menu {
 	}
 	
 	private void showScores() {
+		System.out.println("========================");
+		System.out.println("         Scores         ");
+		System.out.println("========================");
+		System.out.println(manager.listPlayers());
 		
+	}
+	
+	
+	public void shot() {
+		String str = sc.nextLine();
+		if (str.charAt(0) != 'L') {
+			if ((str.charAt(str.length()-1)-'H' != 0) && (str.charAt(str.length()-1)-'V'!= 0)) {
+				
+				char x = str.charAt(str.length()-1);
+				str = str.replace(x+"","");
+				int y = Integer.parseInt(str);
+				
+				try {
+					System.out.println(manager.shoot(x, y));
+				} catch (InvalidCoordinatesException e) {
+					e.printStackTrace();
+				}
+			}else {
+				if (str.charAt(str.length()-1) == 'H') {
+					 char x = str.charAt(str.length()-2);
+					 str = str.replace(x, '/');
+					 str.replace("/", "");
+					 str.replace("H", "");
+					 int y = Integer.parseInt(str);
+					 try {
+						 System.out.println(manager.shoot(x, y, 0));
+					 }catch (InvalidCoordinatesException e) {
+						 e.printStackTrace();
+					 }
+				}else if (str.charAt(str.length()-1) == 'V') {
+					char x = str.charAt(str.length()-2);
+					str = str = str.replace(x, '/');
+					str = str.replace("/", "");
+					str = str.replace("V", "");
+					
+					int y = Integer.parseInt(str);
+					
+					try {
+					manager.shoot(x, y, 1);	
+					}catch (InvalidCoordinatesException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}else {
+			if (str.charAt(str.length()-1) == 'L') {
+				str = str.replace(str.charAt(str.length()-1)+"","");
+				str = str.replace(str.charAt(0)+"", "");
+				char x = str.charAt(str.length()-1);
+				str = str.replace(x+"", "");
+				int y = Integer.parseInt(str);
+				System.out.println(manager.shot(x, y, "\\"));
+				} else {
+					char x = str.charAt(str.length()-2);
+					str = str.replaceAll('L'+"", "");
+					str = str.replaceAll('R'+"", "");
+					str = str.replace(x+"", "");
+					int y = Integer.parseInt(str);
+					System.out.println(manager.shot(x, y, "/"));
+				}
+			}
 	}
 }

@@ -227,20 +227,20 @@ public class NodeList {
 		
 	}
 	
-	public String shot (Node n) {
+	public String shot (Node n,String dir) {
 		String str = "";
 		
 		if (node == null) {
 			return str;
 		}else {
-			return shot(str,node,n);
+			return shot(str,node,n, dir);
 		}
 	}
 	
-	private String shot(String str,Node r, Node n) {
+	private String shot(String str,Node r, Node n,String dir) {
 		String aux = "";
 		if (r == n) {
-			if (r.getMirror().equals("/")||r.getMirror().equals("\\")) {
+			if ((r.getMirror().equals("/")||r.getMirror().equals("\\")) && dir.equals(r.getMirror())) {
 				aux = "["+r.getMirror()+"]";
 				r.setVisible(true);
 			}else {
@@ -254,7 +254,7 @@ public class NodeList {
 		if (r.getRight() == null) {
 			return str+aux;
 		}else {
-			return shot(str+aux,r.getRight(),n);
+			return shot(str+aux,r.getRight(),n,dir);
 		}
 	}
 
