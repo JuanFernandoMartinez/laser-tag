@@ -16,6 +16,10 @@ public class PlayersManager {
 		this.root = root;
 	}
 	
+	/**
+	 * adds a player in the BST
+	 * @param n new Player
+	 */
 	public void addNode(Player n) {
 		if (root == null) {
 			root = n;
@@ -25,6 +29,11 @@ public class PlayersManager {
 		
 	}
 	
+	/**
+	 * adds a player in the BTS
+	 * @param r root player
+	 * @param n new player
+	 */
 	private void addNode(Player r, Player n) {
 		if (r.getScore() < n.getScore()) {
 			if (r.getRight() == null) {
@@ -43,6 +52,11 @@ public class PlayersManager {
 		}
 	}
 	
+	/**
+	 * search a player in the BTS
+	 * @param score player's score
+	 * @return the player if it's found otherwise returns null
+	 */
 	public Player searchPlayer(double score) {
 		if (root.getScore() == score) {
 			return root;
@@ -51,6 +65,12 @@ public class PlayersManager {
 		}
 	}
 	
+	/**
+	 * search a player by score
+	 * @param r current root player
+	 * @param score players score
+	 * @return the player if it's found otherwise return null
+	 */
 	private Player searchPlayer(Player r, double score) {
 		if (r.getScore()< score) {
 			if (r.getRight() != null) {
@@ -76,7 +96,10 @@ public class PlayersManager {
 		return null;
 	}
 	
-	
+	/**
+	 * list all players on the BTS
+	 * @return String with the list of players
+	 */
 	public String listPlayers() {
 		String str = "";
 		if (root == null) {
@@ -86,6 +109,12 @@ public class PlayersManager {
 		}
 	}
 	
+	/**
+	 * visit all players on the BST saving their information
+	 * @param r current root player
+	 * @param str current String
+	 * @return
+	 */
 	private String visitPlayer(Player r, String str) {
 		String aux = "";
 		if (r.getRight() != null && !(r.getRight().isVisited())) {

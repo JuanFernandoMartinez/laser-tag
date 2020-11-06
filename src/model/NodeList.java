@@ -227,6 +227,13 @@ public class NodeList {
 		
 	}
 	
+	
+	/**
+	 * Try to locate one of the mirrors
+	 * @param n Node with the possible mirror location
+	 * @param dir String with the mirror position 
+	 * @return String with the current row of the matrix 
+	 */
 	public String shot (Node n,String dir) {
 		String str = "";
 		
@@ -237,6 +244,14 @@ public class NodeList {
 		}
 	}
 	
+	/**
+	 * try to locate one of the mirrors
+	 * @param str String with the current text
+	 * @param r Node with the current root node
+	 * @param n Node with possible mirror location
+	 * @param dir String with the mirror position 
+	 * @return String with the current row of the matrix
+	 */
 	private String shot(String str,Node r, Node n,String dir) {
 		String aux = "";
 		if (r == n) {

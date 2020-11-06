@@ -21,6 +21,10 @@ public class Node {
 		this.mirror = mirror;
 		this.col = col;
 		this.visible = false;
+		this.left = null;
+		this.right = null;
+		this.down = null;
+		this.up = null;
 	}
 
 	public String getMirror() {

@@ -14,6 +14,12 @@ public class NodeManager {
 	
 	private NodeList first;
 	
+	/**
+	 * creates a Node Manager Object
+	 * @param n integer with the quantity of columns 
+	 * @param m integer with the quantity of rows
+	 * @param k integer with the quantity of mirrors
+	 */
 	public NodeManager(int n, int m, int k) {
 		col = n;
 		row = m;
@@ -21,6 +27,9 @@ public class NodeManager {
 		first = null;
 	}
 	
+	/**
+	 * creates lists with their nodes
+	 */
 	public void addList() {
 		if (first == null && row > 0) {
 			first = new NodeList(1);
@@ -32,6 +41,13 @@ public class NodeManager {
 		
 	}
 	
+	
+	/**
+	 * creates the lists with their nodes in a recursive way
+	 * @param list
+	 * @param n
+	 * @param m
+	 */
 	private void addList(NodeList list,int n, int m) {
 		list.setNext(new NodeList(list.getRow()+1));
 		list.getNext().setPrev(list);
@@ -41,10 +57,17 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * connect the lists with themselves 
+	 */
 	public void connectLists() {
 		connectLists(first);
 	}
 	
+	/**
+	 * connects current list with the next list
+	 * @param n current NodeList
+	 */
 	private void connectLists(NodeList n) {
 		if (n.getNext() != null) {
 			n.connectNodes(n.getNext());
@@ -53,6 +76,9 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * create the game matrix with the columns, rows and mirrors
+	 */
 	public void createBoard() {
 		addList();
 		connectLists();
@@ -60,6 +86,11 @@ public class NodeManager {
 		
 	}
 	
+	/**
+	 * generates a random integer between 1 and max
+	 * @param max maximum value
+	 * @return integer with the random final value
+	 */
 	public int randX(int max) {
 		if (max == 1) {
 			return 1;
@@ -69,6 +100,11 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * generates a random integer between 1 and max
+	 * @param max maximum value
+	 * @return integer with the random final value
+	 */
 	public int randY(int max) {
 		if (max == 1) {
 			return 1;
@@ -78,6 +114,10 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * generates randomly a String between / and \ 
+	 * @return randomly String 
+	 */
 	public String randMirror() {
 		double mr = Math.random();
 		if (mr>0.5) {
@@ -89,6 +129,9 @@ public class NodeManager {
 	
 	
 	
+	/**
+	 * assigns mirrors randomly to the matrix
+	 */
 	public void asignMirror() {
 	if (quantity == 0) {
 		
@@ -97,6 +140,11 @@ public class NodeManager {
 	}
 	}
 	
+	
+	/**
+	 * assigns mirrors randomly
+	 * @param k mirrors quantity
+	 */
 	private void asignMirror(int k) {
 			int x = randX(col);
 			int y = randY(row);
@@ -118,7 +166,12 @@ public class NodeManager {
 	
 	
 	
-	
+	/**
+	 * search a specific Node with its coordinates  
+	 * @param x Column
+	 * @param y row
+	 * @return Node if it's fund otherwise returns null
+	 */
 	public Node searchNode(int x, int y) {
 		if (first.getRow() == y) {
 			Node aux = first.searchNode(x);
@@ -134,7 +187,13 @@ public class NodeManager {
 	}
 	
 
-	
+	/**
+	 * search a specific node recursively
+	 * @param n current NodeList
+	 * @param x column
+	 * @param y row
+	 * @return the Node asked if it's found otherwise returns null
+	 */
 	private Node searchNode(NodeList n, int x,int y) {
 		if (n.getNext() != null) {
 			if (n.getNext().getRow() == y) {
@@ -180,7 +239,12 @@ public class NodeManager {
 		return null;
 	}
 	
-	/*public boolean IsCorner(Node node) {
+	/**
+	 * verifies if a node is located on a corner
+	 * @param node Node asked
+	 * @return true if it's a corner otherwise returns false
+	 */
+	public boolean IsCorner(Node node) {
 		int count = 0;
 		if (node.getLeft() == null) {
 			count++;
@@ -200,8 +264,15 @@ public class NodeManager {
 		}else {
 			return false;
 		}	
-	}*/
+	}
 	
+	/**
+	 * process a laser shot to find the end node
+	 * @param x initial column
+	 * @param y initial row
+	 * @return End node
+	 * @throws InvalidCoordinatesException if the initial node doesn't exist
+	 */
 	public Node runAttempt(int x, int y) throws InvalidCoordinatesException {
 		Node aux = searchNode(x, y);
 		if (aux.getLeft() == null) {
@@ -217,6 +288,11 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * sends the shoot to left
+	 * @param nd current node
+	 * @return the end node
+	 */
 	public Node runLeft(Node nd) {
 		
 		String mr = nd.getMirror();
@@ -249,7 +325,11 @@ public class NodeManager {
 		
 	}
 	
-	
+	/**
+	 * sends the shoot down
+	 * @param nd current node
+	 * @return end node
+	 */
 	public Node runDown(Node nd){
 		String mr = nd.getMirror();
 		
@@ -278,6 +358,11 @@ public class NodeManager {
 		return null;
 	}
 	
+	/**
+	 * sends the node up
+	 * @param nd current node
+	 * @return end node
+	 */
 	public Node runUp(Node nd) {
 		String mr = nd.getMirror();
 		
@@ -307,6 +392,11 @@ public class NodeManager {
 		return null;
 	}
 	
+	/**
+	 * sends the shoot right
+	 * @param nd current node
+	 * @return end node
+	 */
 	public Node runRight(Node nd) {
 		String mr = nd.getMirror();
 		
@@ -366,6 +456,11 @@ public class NodeManager {
 		this.quantity = quantity;
 	}
 	
+	
+	/**
+	 *parse the matrix to String 
+	 * @return matrix in String
+	 */
 	public String getNodesString() {
 		String str = "";
 		if (first == null) {
@@ -375,6 +470,12 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * parse the matrix to String 
+	 * @param str current text
+	 * @param nd current NodeList
+	 * @return matrix in String
+	 */
 	private String getNodesString(String str, NodeList nd) {
 		String aux = str+"\n"+nd.getNodesString();
 		if (nd.getNext() == null) {
@@ -384,6 +485,13 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * Gets the shoot simulation in String
+	 * @param x column
+	 * @param y row
+	 * @return matrix String with the Start and end point 
+	 * @throws InvalidCoordinatesException
+	 */
 	public String getNodesSE(int x, int y) throws InvalidCoordinatesException {
 		Node one = searchNode(x, y);
 		Node two = runAttempt(x, y);
@@ -395,6 +503,15 @@ public class NodeManager {
 		}
 	}
 	
+	
+	/**
+	 * gets the matrix string with the start and end points
+	 * @param str current text String
+	 * @param nd current NodeList
+	 * @param one Start Node
+	 * @param two end node
+	 * @return String with the matrix string 
+	 */
 	private String getNodesSE(String str, NodeList nd, Node one, Node two) {
 		String aux = str+"\n"+nd.getNodesSE(one,two);
 		if (nd.getNext() == null) {
@@ -404,6 +521,14 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * gets the matrix String with the start and end points of in a corner
+	 * @param x column
+	 * @param y row
+	 * @param dir String with direction vertical or horizontal 
+	 * @return String with the matrix simulation
+	 * @throws InvalidCoordinatesException
+	 */
 	public String getNodesSE(int x, int y, int dir) throws InvalidCoordinatesException {
 		Node one = searchNode(x, y);
 		Node two = runAttempt(x, y, dir);
@@ -415,7 +540,13 @@ public class NodeManager {
 		}
 	}
 	
-	
+	/**
+	 * tries to identify a node with a mirror
+	 * @param x possible column
+	 * @param y possible row
+	 * @param dir possible mirror position 
+	 * @return String with the simulation
+	 */
 	public String shot(int x, int y,String dir) {
 		String str = "";
 		Node a = searchNode(x, y);
@@ -432,6 +563,14 @@ public class NodeManager {
 		
 	}
 	
+	/**
+	 * tries to identify a node with a mirror
+	 * @param str current String 
+	 * @param n current NodeList
+	 * @param a possible mirror location
+	 * @param dir possible mirror position 
+	 * @return
+	 */
 	private String shot(String str, NodeList n, Node a,String dir) {
 		String aux = str+n.shot(a,dir)+"\n";
 		
@@ -443,6 +582,10 @@ public class NodeManager {
 		}
 	}
 	
+	/**
+	 * verify if the player has won
+	 * @return true if the player won otherwise returns false
+	 */
 	public boolean isWon() {
 		if (rest == quantity) {
 			return true;
@@ -465,6 +608,12 @@ public class NodeManager {
 		
 	}
 	
+	/**
+	 * verifies if a node is located on a border
+	 * @param x column
+	 * @param y row
+	 * @return true if the node is on a border otherwise returns false
+	 */
 	public boolean isBorder(int x, int y) {
 		int i = 0;
 		Node aux = searchNode(x, y);

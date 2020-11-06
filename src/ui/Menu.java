@@ -14,11 +14,18 @@ public class Menu {
 		sc = new Scanner(System.in);
 	}
 	
+	/**
+	 * starts the application
+	 */
 	public void start() {
 		boolean finished = false;
 		menu(finished);
 	}
 	
+	/**
+	 * controls the menu
+	 * @param f boolean which verify if the application is still running
+	 */
 	private void menu(boolean f) {
 		if (f) {
 			
@@ -30,6 +37,10 @@ public class Menu {
 		}
 	}
 	
+	/**
+	 * gets the menu options
+	 * @return String with the menu options
+	 */
 	private String showOptions() {
 		String options;
 		options = "=============================\n";
@@ -42,6 +53,10 @@ public class Menu {
 		return options;
 	}
 	
+	/**
+	 * manage all menu options
+	 * @return true if the game should finished otherwise returns false
+	 */
 	private boolean manageOptions() {
 		int choice = Integer.parseInt(sc.nextLine());
 		
@@ -54,6 +69,9 @@ public class Menu {
 		return false;
 	}
 	
+	/**
+	 * controls the game mechanics
+	 */
 	private void play(){
 		if (getPlayerInfo()) {
 			System.out.println(manager.MirrorsRemain());
@@ -63,6 +81,10 @@ public class Menu {
 		
 	}
 	
+	/**
+	 * controls the game flow
+	 * @param win boolean which represent the game win or lose status 
+	 */
 	private void play(boolean win) {
 		if (win) {
 			System.out.println("Felicidades usted ha ganado "+manager.getScore());
@@ -75,6 +97,10 @@ public class Menu {
 		}
 	
 	
+	/**
+	 * gets the player's information
+	 * @return String with the players information
+	 */
 	private boolean getPlayerInfo() {
 		System.out.println("Escriba separando con espacios su nickname, #columnas, #filas y #espejos");
 		String line = sc.nextLine();
@@ -98,7 +124,9 @@ public class Menu {
 		
 	}
 	
-	
+	/**
+	 * controls shoots and shots in the game 
+	 */
 	public void shot() {
 		String str = sc.nextLine();
 		if (str.charAt(0) != 'L') {
@@ -127,7 +155,7 @@ public class Menu {
 					 }
 				}else if (str.charAt(str.length()-1) == 'V') {
 					char x = str.charAt(str.length()-2);
-					str = str = str.replace(x, '/');
+					str = str.replace(x, '/');
 					str = str.replace("/", "");
 					str = str.replace("V", "");
 					
